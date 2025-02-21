@@ -19,14 +19,14 @@ export default function SearchBar() {
   const [isFocused, setIsFocused] = useState(false);
 
   // useDebouncedCallback to avoid making too many requests
-  const fetchSuggestions = useDebouncedCallback(async (searchsearch) => {
-    if (searchsearch.length < 2) {
+  const fetchSuggestions = useDebouncedCallback(async (inputBalue) => {
+    if (inputBalue.length < 2) {
       setSuggestions([]);
       return;
     }
 
     try {
-      const res = await fetch(`/api/search?search=${searchsearch}`);
+      const res = await fetch(`/api/search?search=${inputBalue}`);
       const data = await res.json();
       setSuggestions(data);
     } catch (error) {
@@ -44,9 +44,10 @@ export default function SearchBar() {
     setIsFocused(true);
   };
 
-  const handleBlur = () => {
+  const handleBlur = useDebouncedCallback(async () => {
+    // Add small delay to avoid losing focus before the link is clicked
     setIsFocused(false);
-  };
+  }, 300);
 
   return (
     <div className="relative w-full">
@@ -70,14 +71,18 @@ export default function SearchBar() {
         <ul className="absolute w-full bg-white border border-gray-200 mt-1 rounded-lg shadow-md z-50">
           {suggestions.map((game) => {
             return (
-              <Link key={`link-${game.id}`} href={`/game/${game.slug}`}>
+              <Link
+                key={`link-${game.id}`}
+                href={`/game/${game.slug}`}
+                className="suggestion-link"
+                onClick={() => {
+                  setSearch("");
+                  setSuggestions([]);
+                }}
+              >
                 <li
                   key={game.id}
                   className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSearch(game.name);
-                  }}
                 >
                   {game.name}
                 </li>
