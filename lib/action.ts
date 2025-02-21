@@ -2,10 +2,8 @@
 
 import prisma from "@/lib/prisma";
 import { signUpSchema } from "@/lib/schemas/signUpSchema";
-import { User, UserGame } from "@prisma/client";
-import { Action } from "@prisma/client/runtime/library";
+import { UserGame } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { GamepadIcon } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

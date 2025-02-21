@@ -3,8 +3,6 @@ import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { options } from "@/lib/auth";
 import { ActionButton } from "@/components/actionButton";
-import { ChartNoAxesColumnDecreasing } from "lucide-react";
-import prisma from "@/lib/prisma";
 
 // Page to display game with few details and actions (finish, like, add to list)
 export default async function Page(props: {

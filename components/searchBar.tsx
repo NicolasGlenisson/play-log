@@ -7,10 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Link from "next/link";
 
+interface suggestionType {
+  id: number;
+  name: string;
+  slug: string;
+}
 // Search bar component with autocompletion feature
 export default function SearchBar() {
   const [search, setSearch] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<suggestionType[]>([]);
   const [isFocused, setIsFocused] = useState(false);
 
   // useDebouncedCallback to avoid making too many requests
@@ -61,22 +66,24 @@ export default function SearchBar() {
       </div>
 
       {/* Display suggestions */}
-      {suggestions.length > 0 && (
+      {suggestions.length > 0 && isFocused && (
         <ul className="absolute w-full bg-white border border-gray-200 mt-1 rounded-lg shadow-md z-50">
-          {suggestions.map((game: any) => (
-            <Link key={`link-${game.id}`} href={`/game/${game.slug}`}>
-              <li
-                key={game.id}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                onClick={(e) => {
-                  e.preventDefault;
-                  setSearch(game.name);
-                }}
-              >
-                {game.name}
-              </li>
-            </Link>
-          ))}
+          {suggestions.map((game) => {
+            return (
+              <Link key={`link-${game.id}`} href={`/game/${game.slug}`}>
+                <li
+                  key={game.id}
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSearch(game.name);
+                  }}
+                >
+                  {game.name}
+                </li>
+              </Link>
+            );
+          })}
         </ul>
       )}
     </div>

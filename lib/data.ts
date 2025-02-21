@@ -11,6 +11,7 @@ export async function fetchGame(slug: string) {
 
     return game;
   } catch (error) {
+    console.log(error);
     throw new Error("Failed to fetch game");
   }
 }
@@ -29,6 +30,7 @@ export async function fetchUserGame(userId: number, gameId: number) {
 
     return userGame;
   } catch (error) {
+    console.log(error);
     throw new Error("Failed to fetch user game");
   }
 }

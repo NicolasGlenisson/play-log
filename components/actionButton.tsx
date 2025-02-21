@@ -1,5 +1,6 @@
 "use client";
-import { Gamepad2, Heart, Link, List } from "lucide-react";
+import { Gamepad2, Heart, List } from "lucide-react";
+import Link from "next/link";
 import { gameAction, ActionType } from "@/lib/action";
 import { UserGame } from "@prisma/client";
 import { Toggle } from "@/components/ui/toggle";
@@ -36,11 +37,11 @@ export function ActionButton(props: ActionButtonProps) {
 
   if (!userId) {
     return (
-      <a href="/api/auth/signin">
+      <Link href="/api/auth/signin">
         <Toggle pressed={false} variant="outline">
           {icon} {text}
         </Toggle>
-      </a>
+      </Link>
     );
   }
   const handleClick = async () => {
