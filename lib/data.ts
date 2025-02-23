@@ -34,3 +34,22 @@ export async function fetchUserGame(userId: number, gameId: number) {
     throw new Error("Failed to fetch user game");
   }
 }
+
+// fetch userGames
+export async function fetchUserGames(userId: number) {
+  try {
+    const userGames = await prisma.userGame.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        game: true,
+      },
+    });
+
+    return userGames;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to fetch user games");
+  }
+}

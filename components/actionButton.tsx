@@ -20,18 +20,18 @@ export function ActionButton(props: ActionButtonProps) {
   switch (type) {
     case "like":
       icon = <Heart size={24} />;
-      text = "Like";
       isPressed = userGame?.liked || false;
+      text = isPressed ? "Liked" : "Like";
       break;
     case "finish":
       icon = <Gamepad2 size={24} />;
-      text = "Finish";
       isPressed = userGame?.finished || false;
+      text = isPressed ? "Played" : "Play";
       break;
     case "todo":
       icon = <List size={24} />;
-      text = "Add to list";
       isPressed = userGame?.addedToTodo || false;
+      text = isPressed ? "Added to List" : "Add to list";
       break;
   }
 
