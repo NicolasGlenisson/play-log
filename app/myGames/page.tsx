@@ -38,11 +38,7 @@ export default async function Page(props: {
   return (
     <>
       <GameTable userGames={userGames} />
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        currentUrl="/myGames?"
-      />
+      <Pagination totalPages={totalPages} currentPage={currentPage} />
     </>
   );
 }
