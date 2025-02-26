@@ -2,8 +2,22 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import SearchBar from "@/components/searchBar";
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sideBar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,54 +32,73 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession();
+
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-          <div className="container mx-auto flex justify-between items-center p-4">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="text-2xl font-bold text-gray-800">
-                Play Log
-              </Link>
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset>
+            <Header session={session} />
+            <div className="flex flex-col items-center justify-start h-screen bg-gray-100 p-4">
+              {children}
             </div>
-            <div className="flex-1 mx-4">
-              <SearchBar />
-            </div>
-            <div className="flex items-center space-x-4">
-              {session ? (
-                <>
-                  <Link
-                    href="/api/auth/signout"
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg"
-                  >
-                    Sign Out
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/api/auth/signin"
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className="px-4 py-2 bg-green-500 text-white rounded-lg"
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-        </header>
-        <div className="pt-20">
-          <div className="flex flex-col items-center justify-start h-screen bg-gray-100">
-            {children}
-          </div>
-        </div>
+          </SidebarInset>
+        </SidebarProvider>
       </body>
     </html>
+  );
+}
+
+function Header(props: { session: Session | null }) {
+  const { session } = props;
+
+  return (
+    <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+      <div className="flex items-center gap-2 px-4">
+        <SidebarTrigger className="-ml-1" />
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem className="hidden md:block">
+              <BreadcrumbLink href="#">
+                Building Your Application
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden md:block" />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+      <div className="flex mr-4">
+        {session ? (
+          <>
+            <Link
+              href="/api/auth/signout"
+              className="px-4 py-2 bg-red-500 text-white rounded-lg"
+            >
+              Sign Out
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              href="/api/auth/signin"
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/signup"
+              className="px-4 py-2 bg-green-500 text-white rounded-lg"
+            >
+              Sign Up
+            </Link>
+          </>
+        )}
+      </div>
+    </header>
   );
 }

@@ -1,7 +1,7 @@
 import type { NextAuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import GoogleProvider from "next-auth/providers/google";
 
 // Extend session type with user id
@@ -90,7 +90,7 @@ export const options: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user }) {
-      // Add user id to jwt token
+      // Add user id to jwt token when play login
       if (user?.email) {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },

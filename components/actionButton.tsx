@@ -45,7 +45,7 @@ export function ActionButton(props: ActionButtonProps) {
     );
   }
   const handleClick = async () => {
-    await gameAction(gameSlug, userId, type);
+    await gameAction(gameSlug, type);
   };
 
   if (userId) {

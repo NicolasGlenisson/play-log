@@ -7,13 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Link from "next/link";
 
-interface suggestionType {
+export interface suggestionType {
   id: number;
   name: string;
   slug: string;
 }
 // Search bar component with autocompletion feature
-export default function SearchBar() {
+// You can pass handleClickSuggestion props for custom click action
+export default function SearchBar(props: {
+  handleClickSuggestion?: (game: suggestionType) => void;
+}) {
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState<suggestionType[]>([]);
   const [isFocused, setIsFocused] = useState(false);
@@ -49,6 +52,24 @@ export default function SearchBar() {
     setIsFocused(false);
   }, 300);
 
+  let onClickSuggestion: (game: suggestionType) => void;
+  let isLinkSuggestion: boolean;
+  if (props.handleClickSuggestion) {
+    onClickSuggestion = (game) => {
+      props.handleClickSuggestion?.(game);
+      setSearch("");
+      setSuggestions([]);
+    };
+    isLinkSuggestion = false;
+  } else {
+    onClickSuggestion = () => {
+      // By default, click will reset search and suggestions
+      setSearch("");
+      setSuggestions([]);
+    };
+    isLinkSuggestion = true;
+  }
+
   return (
     <div className="relative w-full">
       <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
@@ -61,9 +82,12 @@ export default function SearchBar() {
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
-        <Button className="px-4 py-2 flex items-center gap-2">
-          <Search size={18} />
-        </Button>
+        {/* displayed only for default search bar without custom click action */}
+        {props.handleClickSuggestion === undefined && (
+          <Button className="px-4 py-2 flex items-center gap-2">
+            <Search size={18} />
+          </Button>
+        )}
       </div>
 
       {/* Display suggestions */}
@@ -71,26 +95,59 @@ export default function SearchBar() {
         <ul className="absolute w-full bg-white border border-gray-200 mt-1 rounded-lg shadow-md z-50">
           {suggestions.map((game) => {
             return (
-              <Link
-                key={`link-${game.id}`}
-                href={`/game/${game.slug}`}
-                className="suggestion-link"
-                onClick={() => {
-                  setSearch("");
-                  setSuggestions([]);
-                }}
-              >
-                <li
-                  key={game.id}
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                >
-                  {game.name}
-                </li>
-              </Link>
+              <Suggestion
+                key={game.slug}
+                game={game}
+                handleClick={onClickSuggestion}
+                isLink={isLinkSuggestion}
+              />
             );
           })}
         </ul>
       )}
     </div>
   );
+}
+
+interface suggestionProps {
+  game: suggestionType;
+  handleClick: (game: suggestionType) => void;
+  isLink: boolean;
+}
+function Suggestion(props: suggestionProps) {
+  const { game, handleClick, isLink } = props;
+
+  // Suggestion can be a link or just an action button
+  if (isLink) {
+    return (
+      <Link
+        key={`link-${game.id}`}
+        href={`/game/${game.slug}`}
+        className="suggestion-link"
+        onClick={() => handleClick(game)}
+      >
+        <li
+          key={game.id}
+          className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+        >
+          {game.name}
+        </li>
+      </Link>
+    );
+  } else {
+    return (
+      <div
+        key={`link-${game.id}`}
+        className="suggestion-link"
+        onClick={() => handleClick(game)}
+      >
+        <li
+          key={game.id}
+          className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+        >
+          {game.name}
+        </li>
+      </div>
+    );
+  }
 }
