@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { z } from "zod";
 
 // Fetch game by slug
 export async function fetchGame(slug: string) {
@@ -133,13 +134,20 @@ export async function fetchPlayList(id: number) {
 }
 
 export async function searchPlaylists(page: number, search: string) {
+  // Validate the search term
+  const searchSchema = z.string().max(100);
+  const parsedSearch = searchSchema.safeParse(search);
+  if (!parsedSearch.success) {
+    throw new Error("Invalid search term");
+  }
+  const safeSearch = parsedSearch.data;
   // Split the search term into individual words for tags
-  const searchWords = search.split(",").map((word) => word.trim());
+  const searchWords = safeSearch.split(",").map((word) => word.trim());
 
   // Create conditions for searching in name and tags
   const whereConditions: Prisma.PlayListWhereInput = {
     OR: [
-      { name: { contains: search, mode: "insensitive" } },
+      { name: { contains: safeSearch, mode: "insensitive" } },
       { tags: { hasSome: searchWords } },
     ],
   };

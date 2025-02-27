@@ -1,17 +1,25 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { z } from "zod";
 
 // API returning games for search bar autocomplete
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const search = searchParams.get("search");
 
-  if (!search) {
+  // Validate the search term
+  const searchSchema = z.string().max(100);
+  const parsedSearch = searchSchema.safeParse(search);
+  if (!parsedSearch.success) {
+    throw new Error("Invalid search term");
+  }
+  const safeSearch = parsedSearch.data;
+  if (!safeSearch) {
     return NextResponse.json([]);
   }
 
   // Transform search into a word table
-  const words = search.split(" ") || [];
+  const words = safeSearch.split(" ") || [];
 
   try {
     // Find games that contain all words
