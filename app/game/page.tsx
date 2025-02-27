@@ -1,8 +1,7 @@
-import { CardGrid, CardGridSkeleton } from "@/components/cardCollection";
+import { CardGrid } from "@/components/cardCollection";
 import Pagination from "@/components/pagination";
 import SearchBar from "@/components/searchBar";
 import { fetchGames } from "@/lib/actionIGDB";
-import { count } from "console";
 
 export default async function Page(props: {
   searchParams?: Promise<{

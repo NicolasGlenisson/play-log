@@ -1,26 +1,25 @@
-import { getServerSession } from "next-auth";
-import { fetchPlaylistsByUserId } from "@/lib/data";
+import { searchPlaylists } from "@/lib/data";
 import PlayListCollection from "@/components/playListCollection";
-import { notFound } from "next/navigation";
+import SearchInput from "@/components/searchPlaylist";
+import Pagination from "@/components/pagination";
 
-export default async function Page() {
-  const session = await getServerSession();
-  if (!session) {
-    notFound();
-  }
-
-  const req = await fetchPlaylistsByUserId(session.user.id);
-
-  if (!req.success) {
-    return <div>Error loading playlists</div>;
-  }
-
-  const playlists = req.data;
+export default async function Page(props: {
+  searchParams?: Promise<{
+    search?: string;
+    page?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const search = searchParams?.search || "";
+  const page = Number(searchParams?.page) || 1;
+  const { playlists, totalPages } = await searchPlaylists(page, search);
 
   return (
     <>
-      <h1>My Playlists</h1>
+      <h1>Search Playlists</h1>
+      <SearchInput />
       <PlayListCollection playlists={playlists} />
+      <Pagination totalPages={totalPages} currentPage={page} />
     </>
   );
 }

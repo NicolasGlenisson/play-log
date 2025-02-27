@@ -36,7 +36,7 @@ export async function fetchUserGame(userId: number, gameId: number) {
   }
 }
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 15;
 // fetch userGames
 export async function fetchUserGames(
   userId: number,
@@ -127,6 +127,39 @@ export async function fetchPlayList(id: number) {
       },
     });
     return playlist;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function searchPlaylists(page: number, search: string) {
+  // Split the search term into individual words for tags
+  const searchWords = search.split(",").map((word) => word.trim());
+
+  // Create conditions for searching in name and tags
+  const whereConditions: Prisma.PlayListWhereInput = {
+    OR: [
+      { name: { contains: search, mode: "insensitive" } },
+      { tags: { hasSome: searchWords } },
+    ],
+  };
+
+  try {
+    const playlists = await prisma.playList.findMany({
+      where: whereConditions,
+      take: ITEMS_PER_PAGE,
+      skip: (page - 1) * ITEMS_PER_PAGE,
+      include: {
+        PlayListGames: true,
+        user: true,
+      },
+    });
+
+    const count = await prisma.playList.count({
+      where: whereConditions,
+    });
+    const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
+    return { playlists, totalPages };
   } catch (error) {
     throw error;
   }

@@ -57,7 +57,7 @@ export async function fetchGames(name: string, page: number) {
 
     const IGDB_URL = "https://api.igdb.com/v4/games";
 
-    let start = (page - 1) * ITEMS_PER_PAGE;
+    const start = (page - 1) * ITEMS_PER_PAGE;
 
     const response = await axios.post(
       IGDB_URL,

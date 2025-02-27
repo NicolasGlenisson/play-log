@@ -1,5 +1,5 @@
 "use client";
-import { Home, Gamepad2, List, SquarePlus } from "lucide-react";
+import { Home, Gamepad2, List, SquarePlus, TextSearch } from "lucide-react";
 
 import {
   Sidebar,
@@ -27,15 +27,21 @@ const items = [
     needConnection: true,
   },
   {
-    title: "Play List",
+    title: "Playlist",
     url: "/playlist",
-    icon: List,
-    needConnection: true,
+    icon: TextSearch,
     items: [
       {
         title: "Create",
         url: "/playlist/create",
         icon: SquarePlus,
+        needConnection: true,
+      },
+      {
+        title: "My Playlists",
+        url: "/playlist/mine",
+        icon: List,
+        needConnection: true,
       },
     ],
   },
@@ -65,18 +71,21 @@ export function AppSidebar(props: { isConnected: boolean }) {
                       </SidebarMenuButton>
                       {item.items &&
                         pathname.startsWith(item.url) &&
-                        item.items.map((item) => (
-                          <SidebarMenu key={item.title} className="ml-5">
-                            <SidebarMenuItem>
-                              <SidebarMenuButton asChild>
-                                <a href={item.url}>
-                                  <item.icon />
-                                  <span>{item.title}</span>
-                                </a>
-                              </SidebarMenuButton>
-                            </SidebarMenuItem>
-                          </SidebarMenu>
-                        ))}
+                        item.items.map(
+                          (item) =>
+                            (!item.needConnection || isConnected) && (
+                              <SidebarMenu key={item.title} className="ml-5">
+                                <SidebarMenuItem>
+                                  <SidebarMenuButton asChild>
+                                    <a href={item.url}>
+                                      <item.icon />
+                                      <span>{item.title}</span>
+                                    </a>
+                                  </SidebarMenuButton>
+                                </SidebarMenuItem>
+                              </SidebarMenu>
+                            )
+                        )}
                     </SidebarMenuItem>
                   )
                 );

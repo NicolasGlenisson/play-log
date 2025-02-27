@@ -63,11 +63,6 @@ function Card({ title, date, description, url }: CardProps) {
 }
 
 export function CardGridSkeleton() {
-  const skeletonData = { id: 0, title: "", date: "", description: "" };
-  const cards = Array(3)
-    .fill(null)
-    .map((_, i) => ({ ...skeletonData, id: i }));
-
   return (
     <div className="p-4 w-full">
       <div
