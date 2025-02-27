@@ -10,7 +10,7 @@ import {
 import { usePathname, useSearchParams } from "next/navigation";
 
 interface PaginationCustomProps {
-  totalPages: number;
+  totalPages?: number;
   currentPage: number;
 }
 
@@ -43,22 +43,23 @@ export default function PaginationCustom(props: PaginationCustomProps) {
           </PaginationLink>
         </PaginationItem>
 
-        {currentPage > 1 && currentPage < totalPages && (
+        {totalPages && currentPage > 1 && currentPage < totalPages && (
           <PaginationItem>
             <PaginationLink href={createPageURL(currentPage)} isActive>
               {currentPage}
             </PaginationLink>
           </PaginationItem>
         )}
-
-        <PaginationItem>
-          <PaginationLink
-            href={createPageURL(totalPages)}
-            isActive={currentPage === totalPages}
-          >
-            {totalPages}
-          </PaginationLink>
-        </PaginationItem>
+        {totalPages && (
+          <PaginationItem>
+            <PaginationLink
+              href={createPageURL(totalPages)}
+              isActive={currentPage === totalPages}
+            >
+              {totalPages}
+            </PaginationLink>
+          </PaginationItem>
+        )}
         {currentPage !== totalPages && (
           <PaginationItem>
             <PaginationNext href={createPageURL(currentPage + 1)} />

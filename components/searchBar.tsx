@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export interface suggestionType {
   id: number;
@@ -15,11 +16,14 @@ export interface suggestionType {
 // Search bar component with autocompletion feature
 // You can pass handleClickSuggestion props for custom click action
 export default function SearchBar(props: {
+  defaultValue?: string;
   handleClickSuggestion?: (game: suggestionType) => void;
 }) {
-  const [search, setSearch] = useState("");
+  const defaultValue = props.defaultValue;
+  const [search, setSearch] = useState(defaultValue || "");
   const [suggestions, setSuggestions] = useState<suggestionType[]>([]);
   const [isFocused, setIsFocused] = useState(false);
+  const router = useRouter();
 
   // useDebouncedCallback to avoid making too many requests
   const fetchSuggestions = useDebouncedCallback(async (inputBalue) => {
@@ -52,6 +56,19 @@ export default function SearchBar(props: {
     setIsFocused(false);
   }, 300);
 
+  const handleSearch = () => {
+    // setSearch("");
+    setIsFocused(false);
+    router.push(`/game?name=${search}`);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
+
   let onClickSuggestion: (game: suggestionType) => void;
   let isLinkSuggestion: boolean;
   if (props.handleClickSuggestion) {
@@ -81,10 +98,14 @@ export default function SearchBar(props: {
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
         />
         {/* displayed only for default search bar without custom click action */}
         {props.handleClickSuggestion === undefined && (
-          <Button className="px-4 py-2 flex items-center gap-2">
+          <Button
+            className="px-4 py-2 flex items-center gap-2"
+            onClick={handleSearch}
+          >
             <Search size={18} />
           </Button>
         )}

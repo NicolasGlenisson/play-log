@@ -47,8 +47,7 @@ export default async function Page(props: {
       </div>
       {game.releaseDate && (
         <p className="text-left text-gray-600 mb-4">
-          Release date :{" "}
-          {new Date(game.releaseDate).toLocaleDateString("fr-FR")}
+          Release date : {new Date(game.releaseDate).toLocaleDateString()}
         </p>
       )}
       {game.summary && (

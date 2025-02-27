@@ -18,6 +18,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
+import { options } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,13 +32,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
+  const session = await getServerSession(options);
 
+  const isConnected = session?.user.id ? true : false;
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         <SidebarProvider>
-          <AppSidebar />
+          <AppSidebar isConnected={isConnected} />
           <SidebarInset>
             <Header session={session} />
             <div className="flex flex-col items-center justify-start h-screen bg-gray-100 p-4">
@@ -86,13 +88,13 @@ function Header(props: { session: Session | null }) {
           <>
             <Link
               href="/api/auth/signin"
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg "
             >
               Sign In
             </Link>
             <Link
               href="/signup"
-              className="px-4 py-2 bg-green-500 text-white rounded-lg"
+              className="px-4 py-2 bg-green-500 text-white rounded-lg ml-3"
             >
               Sign Up
             </Link>

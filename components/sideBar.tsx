@@ -24,11 +24,13 @@ const items = [
     title: "My Games",
     url: "/myGames",
     icon: Gamepad2,
+    needConnection: true,
   },
   {
     title: "Play List",
     url: "/playlist",
     icon: List,
+    needConnection: true,
     items: [
       {
         title: "Create",
@@ -39,7 +41,8 @@ const items = [
   },
 ];
 
-export function AppSidebar() {
+export function AppSidebar(props: { isConnected: boolean }) {
+  const { isConnected } = props;
   const pathname = usePathname();
   return (
     <Sidebar>
@@ -50,30 +53,34 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                  {item.items &&
-                    pathname.startsWith(item.url) &&
-                    item.items.map((item) => (
-                      <SidebarMenu key={item.title} className="ml-5">
-                        <SidebarMenuItem>
-                          <SidebarMenuButton asChild>
-                            <a href={item.url}>
-                              <item.icon />
-                              <span>{item.title}</span>
-                            </a>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      </SidebarMenu>
-                    ))}
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                return (
+                  (!item.needConnection || isConnected) && (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <a href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      </SidebarMenuButton>
+                      {item.items &&
+                        pathname.startsWith(item.url) &&
+                        item.items.map((item) => (
+                          <SidebarMenu key={item.title} className="ml-5">
+                            <SidebarMenuItem>
+                              <SidebarMenuButton asChild>
+                                <a href={item.url}>
+                                  <item.icon />
+                                  <span>{item.title}</span>
+                                </a>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          </SidebarMenu>
+                        ))}
+                    </SidebarMenuItem>
+                  )
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
