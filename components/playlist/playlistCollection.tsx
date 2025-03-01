@@ -1,6 +1,6 @@
 "use client";
 
-import PlayListCard, { PlayListType } from "./playListCard";
+import PlayListCard, { PlayListType } from "@/components/playlist/playlistCard";
 
 interface playListCollectionProps {
   playlists: PlayListType[];

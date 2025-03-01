@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { fetchPlaylistsByUserId } from "@/lib/playlist";
-import PlayListCollection from "@/components/playlist/playListCollection";
+import PlayListCollection from "@/components/playlist/playlistCollection";
 import { redirect } from "next/navigation";
 
 export default async function Page() {

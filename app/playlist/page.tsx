@@ -1,5 +1,5 @@
 import { searchPlaylists } from "@/lib/playlist";
-import PlayListCollection from "@/components/playlist/playListCollection";
+import PlayListCollection from "@/components/playlist/playlistCollection";
 import SearchInput from "@/components/playlist/searchPlaylist";
 import Pagination from "@/components/custom/pagination";
 

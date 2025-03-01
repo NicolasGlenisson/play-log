@@ -1,0 +1,96 @@
+"use client";
+
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import { useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+
+type Playlist = {
+  id: number;
+  name: string;
+  description: string | null;
+  tags: string[];
+  user: {
+    name: string | null;
+  };
+};
+
+export default function PlaylistCarousel({
+  playlists,
+}: {
+  playlists: Playlist[];
+}) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  return (
+    <div className="relative w-full max-w-5xl mx-auto">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {playlists.map((playlist) => (
+            <div key={playlist.id} className="flex-[0_0_100%] min-w-0 relative">
+              <div className="m-4">
+                <div className="p-6 bg-white rounded-lg shadow-md">
+                  <Link
+                    href={`/playlist/${playlist.id}`}
+                    className="text-2xl font-bold hover:text-blue-600 transition-colors"
+                  >
+                    {playlist.name}
+                  </Link>
+                  <p className="mt-2 text-sm text-gray-500">
+                    Created by {playlist.user.name || "Anonymous"}
+                  </p>
+                  <p className="mt-4 text-gray-600 line-clamp-3">
+                    {playlist.description || "No description available"}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {playlist.tags.map((tag, index) => (
+                      <Badge key={index} variant="secondary">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Button
+        variant="outline"
+        size="icon"
+        className={cn(
+          "absolute top-1/2 -translate-y-1/2 -left-12",
+          "hover:bg-background/80 hidden md:flex"
+        )}
+        onClick={scrollPrev}
+      >
+        <ChevronLeft className="h-4 w-4" />
+      </Button>
+
+      <Button
+        variant="outline"
+        size="icon"
+        className={cn(
+          "absolute top-1/2 -translate-y-1/2 -right-12",
+          "hover:bg-background/80 hidden md:flex"
+        )}
+        onClick={scrollNext}
+      >
+        <ChevronRight className="h-4 w-4" />
+      </Button>
+    </div>
+  );
+}
