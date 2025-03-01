@@ -6,9 +6,10 @@ import { UserGame } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { options } from "./auth";
 import { getServerSession } from "next-auth";
+import { cache } from "react";
 
 // Fetch game by slug
-export async function fetchGame(slug: string) {
+export const fetchGame = cache(async (slug: string) => {
   try {
     const game = await prisma.game.findUnique({
       where: {
@@ -21,7 +22,7 @@ export async function fetchGame(slug: string) {
     console.error("Failed to fetch game", error);
     throw error;
   }
-}
+});
 
 // fetch userGame relation
 export async function fetchUserGame(userId: number, gameId: number) {

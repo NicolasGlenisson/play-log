@@ -62,3 +62,23 @@ export default async function Page(props: {
     </div>
   );
 }
+
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const params = await props.params;
+  const slug = params.slug;
+  const game = await fetchGame(slug);
+
+  if (!game) {
+    return {};
+  }
+  return {
+    title: game.name,
+    description: game.summary || "Découvrez plus d'informations sur ce jeu.",
+    openGraph: {
+      title: game.name,
+      description: game.summary,
+    },
+  };
+}
