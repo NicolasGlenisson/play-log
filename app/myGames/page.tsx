@@ -3,6 +3,7 @@ import { options } from "@/lib/auth";
 import { fetchUserGames } from "@/lib/data";
 import { getServerSession } from "next-auth";
 import Pagination from "@/components/pagination";
+import { redirect } from "next/navigation";
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -16,7 +17,7 @@ export default async function Page(props: {
   const session = await getServerSession(options);
 
   if (!session?.user.id) {
-    return; //TODO 404
+    redirect("/api/auth/signin?callbackUrl=/myGames");
   }
 
   const searchParams = await props.searchParams;

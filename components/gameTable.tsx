@@ -53,7 +53,7 @@ const gameColumns: ColumnDef<UserGame & { game: Game }>[] = [
   },
   {
     accessorKey: "addedToTodo",
-    header: "Play List",
+    header: "Wishlisted",
     cell: ({ row }) => (
       <div className="flex justify-center">
         {row.getValue("addedToTodo") ? check : cross}

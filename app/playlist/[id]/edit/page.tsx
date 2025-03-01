@@ -2,7 +2,7 @@ import PlayListForm from "@/components/form/playListForm";
 import { options } from "@/lib/auth";
 import { fetchPlayList } from "@/lib/data";
 import { getServerSession } from "next-auth";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 // Page to edit a playlist
 export default async function Page(props: { params: Promise<{ id: number }> }) {
@@ -10,7 +10,7 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
   const session = await getServerSession(options);
   // Check session
   if (!session) {
-    notFound();
+    redirect("/api/auth/signin?callbackUrl=/playlist/mine");
   }
 
   // Check if user is owner of the playlist

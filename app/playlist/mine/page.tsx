@@ -1,12 +1,12 @@
 import { getServerSession } from "next-auth";
 import { fetchPlaylistsByUserId } from "@/lib/data";
 import PlayListCollection from "@/components/playListCollection";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await getServerSession();
   if (!session) {
-    notFound();
+    redirect("/api/auth/signin?callbackUrl=/playlist/mine");
   }
 
   const req = await fetchPlaylistsByUserId(session.user.id);

@@ -26,12 +26,12 @@ export function ActionButton(props: ActionButtonProps) {
     case "finish":
       icon = <Gamepad2 size={24} />;
       isPressed = userGame?.finished || false;
-      text = isPressed ? "Played" : "Play";
+      text = isPressed ? "Finished" : "Finish";
       break;
     case "todo":
       icon = <List size={24} />;
       isPressed = userGame?.addedToTodo || false;
-      text = isPressed ? "Added to List" : "Add to list";
+      text = isPressed ? "Wishlisted" : "Wishlist";
       break;
   }
 
