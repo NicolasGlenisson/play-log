@@ -31,7 +31,10 @@ const getRandomGames = unstable_cache(
 const getRandomPlaylists = unstable_cache(
   async () => {
     const count = await prisma.playList.count();
-    const randomOffset = Math.floor(Math.random() * (count - 3));
+    let randomOffset = 0;
+    if (count > 3) {
+      randomOffset = Math.floor(Math.random() * (count - 3));
+    }
     return await prisma.playList.findMany({
       include: {
         user: {
