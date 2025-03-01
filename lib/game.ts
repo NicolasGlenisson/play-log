@@ -47,7 +47,12 @@ const ITEMS_PER_PAGE = 15;
 export async function fetchUserGames(
   userId: number,
   currentPage: number,
-  filter: { liked: boolean; finished: boolean; addedToTodo: boolean }
+  filter: {
+    liked: boolean;
+    finished: boolean;
+    addedToTodo: boolean;
+    sort: "asc" | "desc";
+  }
 ) {
   let whereConditions: Prisma.UserGameWhereInput = {
     userId: userId,
@@ -67,6 +72,11 @@ export async function fetchUserGames(
       where: whereConditions,
       include: {
         game: true,
+      },
+      orderBy: {
+        game: {
+          name: filter.sort,
+        },
       },
       take: ITEMS_PER_PAGE,
       skip: (currentPage - 1) * ITEMS_PER_PAGE,

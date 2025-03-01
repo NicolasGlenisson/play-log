@@ -7,24 +7,16 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/custom/dataTable";
 import { Button } from "../ui/button";
 import GameTableFilter from "@/components/game/gameTableFilter";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const check = <Check className="stroke-green-500" />;
 const cross = <X className="stroke-red-500" />;
+
 // Columns configuration to use with tanstack table
 const gameColumns: ColumnDef<UserGame & { game: Game }>[] = [
   {
     accessorKey: "game.name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <ArrowUpDown />
-        </Button>
-      );
-    },
+    header: "Name",
     cell: ({ row }) => {
       return (
         <Link href={`/game/${row.original.game.slug}`}>

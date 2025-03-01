@@ -12,6 +12,7 @@ export default async function Page(props: {
     liked?: string;
     finished?: string;
     addedToTodo?: string;
+    sort?: "asc" | "desc";
   }>;
 }) {
   const session = await getServerSession(options);
@@ -26,6 +27,7 @@ export default async function Page(props: {
 
   const filter = {
     liked: searchParams?.liked === "true",
+    sort: searchParams?.sort || "asc",
     finished: searchParams?.finished === "true",
     addedToTodo: searchParams?.addedToTodo === "true",
   };
