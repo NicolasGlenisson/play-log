@@ -2,6 +2,7 @@
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -20,7 +21,7 @@ export default function PaginationCustom(props: PaginationCustomProps) {
   const searchParams = useSearchParams();
 
   // If one page is enough to display content, no pagination
-  if (totalPages === 1) {
+  if (totalPages && totalPages <= 1) {
     return <></>;
   }
 
@@ -29,42 +30,79 @@ export default function PaginationCustom(props: PaginationCustomProps) {
     params.set("page", pageNumber.toString());
     return `${pathname}?${params.toString()}`;
   };
+
+  const previousButton = currentPage !== 1 && (
+    <PaginationItem>
+      <PaginationPrevious href={createPageURL(currentPage - 1)} />
+    </PaginationItem>
+  );
+
+  const nextButton = currentPage !== totalPages && (
+    <PaginationItem>
+      <PaginationNext href={createPageURL(currentPage + 1)} />
+    </PaginationItem>
+  );
+
+  const middlePagination: React.ReactNode[] = [];
+  const pageLinkToDisplay: (number | null)[] = [];
+  // If there's a few page, we display all of them
+  if (!totalPages) {
+    // We  only display current page and prev/next button if we don't know total page
+    pageLinkToDisplay.push(currentPage);
+  } else if (totalPages < 5) {
+    for (let i = 1; i <= totalPages; i++) {
+      pageLinkToDisplay.push(i);
+    }
+    // If there is many pages
+  } else {
+    // First 3 pages
+    if (currentPage < 3) {
+      pageLinkToDisplay.push(1, 2, 3, null, totalPages);
+      // Last 3 pages
+    } else if (totalPages - currentPage < 3) {
+      pageLinkToDisplay.push(
+        1,
+        null,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages
+      );
+      // Other pages: display first, last and +1/-1
+    } else {
+      pageLinkToDisplay.push(
+        1,
+        null,
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        null,
+        totalPages
+      );
+    }
+  }
+  console.log(pageLinkToDisplay);
+  pageLinkToDisplay.forEach((page, index) => {
+    middlePagination.push(
+      <PaginationItem key={index}>
+        {page === null ? (
+          <PaginationEllipsis />
+        ) : (
+          <PaginationLink
+            href={createPageURL(page)}
+            isActive={currentPage === page}
+          >
+            {page}
+          </PaginationLink>
+        )}
+      </PaginationItem>
+    );
+  });
   return (
     <Pagination>
       <PaginationContent>
-        {currentPage !== 1 && (
-          <PaginationItem>
-            <PaginationPrevious href={createPageURL(currentPage - 1)} />
-          </PaginationItem>
-        )}
-        <PaginationItem>
-          <PaginationLink href={createPageURL(1)} isActive={currentPage === 1}>
-            1
-          </PaginationLink>
-        </PaginationItem>
-
-        {totalPages && currentPage > 1 && currentPage < totalPages && (
-          <PaginationItem>
-            <PaginationLink href={createPageURL(currentPage)} isActive>
-              {currentPage}
-            </PaginationLink>
-          </PaginationItem>
-        )}
-        {totalPages && (
-          <PaginationItem>
-            <PaginationLink
-              href={createPageURL(totalPages)}
-              isActive={currentPage === totalPages}
-            >
-              {totalPages}
-            </PaginationLink>
-          </PaginationItem>
-        )}
-        {currentPage !== totalPages && (
-          <PaginationItem>
-            <PaginationNext href={createPageURL(currentPage + 1)} />
-          </PaginationItem>
-        )}
+        {previousButton}
+        {middlePagination}
+        {nextButton}
       </PaginationContent>
     </Pagination>
   );
