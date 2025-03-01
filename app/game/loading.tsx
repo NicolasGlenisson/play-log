@@ -1,4 +1,4 @@
-import { CardGridSkeleton } from "@/components/cardCollection";
+import { CardGridSkeleton } from "@/components/custom/cardCollection";
 import SearchBar from "@/components/searchBar";
 
 export default async function Page(props: {

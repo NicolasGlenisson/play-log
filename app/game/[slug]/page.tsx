@@ -1,8 +1,8 @@
-import { fetchGame, fetchUserGame } from "@/lib/data";
+import { fetchGame, fetchUserGame } from "@/lib/game";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { options } from "@/lib/auth";
-import { ActionButton } from "@/components/actionButton";
+import { ActionButton } from "@/components/game/actionButton";
 
 // Page to display game with few details and actions (finish, like, add to list)
 export default async function Page(props: {
@@ -12,15 +12,21 @@ export default async function Page(props: {
 
   const params = await props.params;
   const slug = params.slug;
+
   const game = await fetchGame(slug);
   if (!game) {
     notFound();
   }
 
   let userGame = null;
-  if (session?.user) {
+
+  if (session?.user.id) {
     userGame = await fetchUserGame(session.user.id, game.id);
   }
+
+  const formattedReleaseDate = game.releaseDate
+    ? new Date(game.releaseDate).toLocaleDateString()
+    : "";
 
   return (
     <div className="w-full max-w-2xl p-6 bg-white rounded-2xl shadow-lg mt-10">
@@ -47,7 +53,7 @@ export default async function Page(props: {
       </div>
       {game.releaseDate && (
         <p className="text-left text-gray-600 mb-4">
-          Release date : {new Date(game.releaseDate).toLocaleDateString()}
+          Release date : {formattedReleaseDate}
         </p>
       )}
       {game.summary && (

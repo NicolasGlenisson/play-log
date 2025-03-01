@@ -20,7 +20,7 @@ model Game {
   slug          String          @unique
   releaseDate   DateTime?
   userGames     UserGame[]
-  PlayListGames PlayListGames[]
+  playListGames PlayListGames[]
 }
 
 model User {
@@ -31,7 +31,7 @@ model User {
   googleId    String?    @unique
   googleToken String?
   userGames   UserGame[]
-  PlayList    PlayList[]
+  playList    PlayList[]
 }
 
 model UserGame {
@@ -55,7 +55,7 @@ model PlayList {
   description   String?
   tags          String[]
   dateCreation  DateTime        @default(now())
-  PlayListGames PlayListGames[]
+  playListGames PlayListGames[]
 
   @@index([tags(ops: ArrayOps)], type: Gin)
   @@index([userId])
@@ -66,7 +66,7 @@ model PlayListGames {
   id         Int      @id @default(autoincrement())
   PlayList   PlayList @relation(fields: [playListId], references: [id])
   playListId Int
-  Game       Game     @relation(fields: [gameId], references: [id])
+  game       Game     @relation(fields: [gameId], references: [id])
   gameId     Int
   position   Int
 

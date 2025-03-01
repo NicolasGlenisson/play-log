@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { fetchPlayList } from "@/lib/data";
+import { fetchPlayList } from "@/lib/playlist";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
@@ -52,15 +52,15 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
         </div>
         <div className="space-y-4 mt-8">
           <h2>Games</h2>
-          {playlist.PlayListGames.map((playlistGame, index) => (
+          {playlist.playListGames.map((playlistGame, index) => (
             <div key={playlistGame.id} className="flex flex-col space-y-2">
               <div className="flex items-center space-x-4">
                 <span className="text-lg font-semibold">{index + 1}.</span>
-                <Link href={`/game/${playlistGame.Game.slug}`}>
-                  {playlistGame.Game.name}
+                <Link href={`/game/${playlistGame.game.slug}`}>
+                  {playlistGame.game.name}
                 </Link>
               </div>
-              {index < playlist.PlayListGames.length - 1 && (
+              {index < playlist.playListGames.length - 1 && (
                 <hr className="border-t border-gray-300" />
               )}
             </div>

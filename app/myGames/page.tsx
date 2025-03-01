@@ -1,8 +1,8 @@
-import GameTable from "@/components/gameTable";
+import GameTable from "@/components/game/gameTable";
 import { options } from "@/lib/auth";
-import { fetchUserGames } from "@/lib/data";
+import { fetchUserGames } from "@/lib/game";
 import { getServerSession } from "next-auth";
-import Pagination from "@/components/pagination";
+import Pagination from "@/components/custom/pagination";
 import { redirect } from "next/navigation";
 
 export default async function Page(props: {

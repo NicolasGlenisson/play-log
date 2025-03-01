@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 
 interface CardProps {
   title: string;

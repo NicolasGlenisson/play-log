@@ -1,7 +1,7 @@
 "use client";
 import { Gamepad2, Heart, List } from "lucide-react";
 import Link from "next/link";
-import { gameAction, ActionType } from "@/lib/action";
+import { gameAction, ActionType } from "@/lib/game";
 import { UserGame } from "@prisma/client";
 import { Toggle } from "@/components/ui/toggle";
 

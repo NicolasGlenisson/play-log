@@ -1,6 +1,6 @@
 import PlayListForm from "@/components/form/playListForm";
 import { options } from "@/lib/auth";
-import { fetchPlayList } from "@/lib/data";
+import { fetchPlayList } from "@/lib/playlist";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 

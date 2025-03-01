@@ -16,14 +16,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { playListSchema } from "@/lib/schemas/playListSchema";
-import { createPlaylist, updatePlaylist } from "@/lib/action";
+import { createPlaylist, updatePlaylist, fetchPlayList } from "@/lib/playlist";
 import { Loader2 } from "lucide-react";
 import SearchBar, { suggestionType } from "@/components/searchBar";
 
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import SortableGameList from "./sortableGameList";
-import { fetchPlayList } from "@/lib/data";
+import SortableGameList from "../playlist/sortableGameList";
 
 type PlayListType = Awaited<ReturnType<typeof fetchPlayList>>;
 
@@ -54,11 +53,11 @@ export default function PlayListForm(props: PlayListFormProps) {
 
   let initSortableGames: suggestionType[] = [];
   if (playlist) {
-    initSortableGames = playlist.PlayListGames.map((playlistGame) => {
+    initSortableGames = playlist.playListGames.map((playlistGame) => {
       return {
-        id: playlistGame.Game.id,
-        name: playlistGame.Game.name,
-        slug: playlistGame.Game.slug,
+        id: playlistGame.game.id,
+        name: playlistGame.game.name,
+        slug: playlistGame.game.slug,
       };
     });
   }

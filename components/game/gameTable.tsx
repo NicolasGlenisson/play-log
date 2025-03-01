@@ -4,9 +4,9 @@ import { Game, UserGame } from "@prisma/client";
 import { Check, X, ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "@/components/dataTable";
-import { Button } from "./ui/button";
-import GameTableFilter from "@/components/gameTableFilter";
+import { DataTable } from "@/components/custom/dataTable";
+import { Button } from "../ui/button";
+import GameTableFilter from "@/components/game/gameTableFilter";
 
 const check = <Check className="stroke-green-500" />;
 const cross = <X className="stroke-red-500" />;

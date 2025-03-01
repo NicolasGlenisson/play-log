@@ -1,7 +1,7 @@
-import { searchPlaylists } from "@/lib/data";
-import PlayListCollection from "@/components/playListCollection";
-import SearchInput from "@/components/searchPlaylist";
-import Pagination from "@/components/pagination";
+import { searchPlaylists } from "@/lib/playlist";
+import PlayListCollection from "@/components/playlist/playListCollection";
+import SearchInput from "@/components/playlist/searchPlaylist";
+import Pagination from "@/components/custom/pagination";
 
 export default async function Page(props: {
   searchParams?: Promise<{

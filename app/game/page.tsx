@@ -1,5 +1,5 @@
-import { CardGrid } from "@/components/cardCollection";
-import Pagination from "@/components/pagination";
+import { CardGrid } from "@/components/custom/cardCollection";
+import Pagination from "@/components/custom/pagination";
 import SearchBar from "@/components/searchBar";
 import { fetchGames } from "@/lib/actionIGDB";
 

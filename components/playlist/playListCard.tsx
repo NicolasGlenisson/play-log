@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/card";
 
 import { Prisma } from "@prisma/client";
-import { Badge } from "./ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 export type PlayListType = Prisma.PlayListGetPayload<{
-  include: { user: true; PlayListGames: true };
+  include: { user: true; playListGames: true };
 }>;
 interface PlayListProps {
   playlist: PlayListType;
