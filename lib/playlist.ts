@@ -8,7 +8,6 @@ import { getServerSession } from "next-auth";
 import { suggestionType } from "@/components/searchBar";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
 const ITEMS_PER_PAGE = 10;
 
 export async function fetchPlaylistsByUserId(userId: number) {

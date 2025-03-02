@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { deletePlaylist, fetchPlayList } from "@/lib/playlist";
+import { fetchPlayList } from "@/lib/playlist";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
