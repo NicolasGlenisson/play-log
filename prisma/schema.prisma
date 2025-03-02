@@ -64,9 +64,9 @@ model PlayList {
 
 model PlayListGames {
   id         Int      @id @default(autoincrement())
-  PlayList   PlayList @relation(fields: [playListId], references: [id])
+  PlayList   PlayList @relation(fields: [playListId], references: [id], onDelete: Cascade)
   playListId Int
-  game       Game     @relation(fields: [gameId], references: [id])
+  game       Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   gameId     Int
   position   Int
 

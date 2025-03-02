@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth";
 import { suggestionType } from "@/components/searchBar";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 const ITEMS_PER_PAGE = 10;
 
 export async function fetchPlaylistsByUserId(userId: number) {
@@ -257,4 +258,30 @@ export async function updatePlaylist(
   }
 
   redirect(`/playlist/${playlistId}`);
+}
+
+export async function deletePlaylist(id: number) {
+  // Check that user is connected and owner of playlist
+  const session = await getServerSession(options);
+  if (!session?.user.id) {
+    throw new Error("Missing session");
+  }
+
+  const playlist = await prisma.playList.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  console.log(playlist);
+  if (!playlist) {
+    throw new Error("Playlist doesn't exist");
+  }
+
+  if (playlist.userId !== session.user.id) {
+    throw new Error("User not owner of the playlist");
+  }
+
+  // Everything good we can delete the playlist
+  await prisma.playList.delete({ where: { id: id } });
+  redirect(`/playlist`);
 }
