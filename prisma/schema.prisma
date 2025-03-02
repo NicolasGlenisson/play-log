@@ -21,6 +21,7 @@ model Game {
   releaseDate   DateTime?
   userGames     UserGame[]
   playListGames PlayListGames[]
+  imageId       String?
 }
 
 model User {

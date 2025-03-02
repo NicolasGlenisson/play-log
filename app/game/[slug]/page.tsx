@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { options } from "@/lib/auth";
 import { ActionButton } from "@/components/game/actionButton";
+import GameImage from "@/components/game/gameImage";
 
 // Page to display game with few details and actions (finish, like, add to list)
 export default async function Page(props: {
@@ -30,6 +31,7 @@ export default async function Page(props: {
 
   return (
     <div className="w-full max-w-2xl p-6 bg-white rounded-2xl shadow-lg mt-10">
+      {game.imageId && <GameImage imageId={game.imageId} />}
       <h1 className="text-3xl font-bold text-center mb-6">{game.name}</h1>
       <div className="flex justify-center gap-4 mb-6">
         <ActionButton

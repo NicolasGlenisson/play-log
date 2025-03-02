@@ -6,7 +6,7 @@ const CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET;
 let token: string | null = null;
 let expiresAt: number | null = null;
 // Get Twitch OAuth token
-async function getAccessToken(): Promise<string> {
+export async function getAccessToken(): Promise<string> {
   const now = Date.now();
   console.log(token);
   if (token && expiresAt && now < expiresAt) {
