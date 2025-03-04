@@ -17,7 +17,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { AlignJustify, Trash2 } from "lucide-react";
 import { suggestionType } from "../searchBar";
-import { Button } from "../ui/button";
+import { Button } from "@/components/custom/buttons";
 
 export default function SortableGameList(props: {
   sortableGames: suggestionType[];
@@ -75,7 +75,7 @@ function SortableItem(props: {
       style={style}
       {...attributes}
       {...listeners}
-      className="p-2 border rounded bg-white mb-2 shadow-md hover:bg-gray-100 flex justify-between items-center"
+      className="p-2 border rounded hover:bg-[#faf3e0] mb-2 shadow-md bg-[#FAEDCD] flex justify-between items-center"
     >
       <div className="flex-grow">{game.name}</div>
       <div className="flex items-center space-x-2">
@@ -83,7 +83,7 @@ function SortableItem(props: {
         <Button
           type="button"
           variant="destructive"
-          size="icon"
+          size="sm"
           onClick={() => handleGameListRemove(game.slug)}
         >
           <Trash2 />

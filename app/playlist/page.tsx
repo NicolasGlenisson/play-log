@@ -15,11 +15,31 @@ export default async function Page(props: {
   const { playlists, totalPages } = await searchPlaylists(page, search);
 
   return (
-    <>
-      <h1>Search Playlists</h1>
-      <SearchInput />
-      <PlayListCollection playlists={playlists} />
-      <Pagination totalPages={totalPages} currentPage={page} />
-    </>
+    <div className="flex flex-col items-center w-full max-w-7xl mx-auto px-4">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-[#5E5034] mt-6 mb-2">
+          Discover Playlists
+        </h1>
+        <p className="text-[#9B7E55] max-w-xl mx-auto">
+          Explore collections created by the community or create your own game
+          selection
+        </p>
+      </div>
+
+      <div className="w-full max-w-lg mb-8">
+        <SearchInput />
+      </div>
+
+      {/* Center the playlist collection horizontally */}
+      <div className="w-full flex justify-center mb-8">
+        <div className="w-full">
+          <PlayListCollection playlists={playlists} canCreate={true} />
+        </div>
+      </div>
+
+      <div className="mb-12">
+        <Pagination totalPages={totalPages} currentPage={page} />
+      </div>
+    </div>
   );
 }

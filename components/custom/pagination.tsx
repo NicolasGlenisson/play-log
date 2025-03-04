@@ -33,13 +33,19 @@ export default function PaginationCustom(props: PaginationCustomProps) {
 
   const previousButton = currentPage !== 1 && (
     <PaginationItem>
-      <PaginationPrevious href={createPageURL(currentPage - 1)} />
+      <PaginationPrevious
+        href={createPageURL(currentPage - 1)}
+        className="bg-[#E9EDCA]  hover:bg-[#dfe4b5]"
+      />
     </PaginationItem>
   );
 
   const nextButton = currentPage !== totalPages && (
     <PaginationItem>
-      <PaginationNext href={createPageURL(currentPage + 1)} />
+      <PaginationNext
+        href={createPageURL(currentPage + 1)}
+        className="bg-[#E9EDCA]  hover:bg-[#dfe4b5]"
+      />
     </PaginationItem>
   );
 
@@ -90,6 +96,9 @@ export default function PaginationCustom(props: PaginationCustomProps) {
           <PaginationLink
             href={createPageURL(page)}
             isActive={currentPage === page}
+            className={`${
+              currentPage === page ? "bg-[#dfe4b5]" : "bg-[#E9EDCA]"
+            } hover:bg-[#949F6E]`}
           >
             {page}
           </PaginationLink>

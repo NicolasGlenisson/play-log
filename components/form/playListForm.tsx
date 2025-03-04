@@ -4,7 +4,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/custom/buttons";
 import {
   Form,
   FormControl,
@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/custom/input";
 import { playListSchema } from "@/lib/schemas/playListSchema";
 import { createPlaylist, updatePlaylist, fetchPlayList } from "@/lib/playlist";
 import { Loader2 } from "lucide-react";
@@ -116,7 +116,7 @@ export default function PlayListForm(props: PlayListFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-xl p-6 bg-white rounded-2xl shadow-lg mt-10 flex-col space-y-6"
+        className="w-full max-w-xl p-6 bg-[#FDFAE0] rounded-2xl shadow-lg mt-10 flex-col space-y-6"
       >
         {errorMessage && (
           <div className="text-red-500 text-center mb-4">{errorMessage}</div>
@@ -143,7 +143,7 @@ export default function PlayListForm(props: PlayListFormProps) {
               <FormControl>
                 <textarea
                   {...field}
-                  className="w-full p-2 border rounded-md resize-none"
+                  className="w-full rounded-3xl border-2 border-[#949F6E] bg-[#FAFAD2] px-4 py-2 text-[#5C6246] ring-offset-background placeholder:text-[#949F6E]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#949F6E]/30 focus-visible:ring-offset-2 focus-visible:border-[#99aa59] disabled:cursor-not-allowed disabled:opacity-50 shadow-sm transition-colors resize-none"
                   rows={4}
                 />
               </FormControl>

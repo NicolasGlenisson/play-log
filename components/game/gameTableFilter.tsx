@@ -1,6 +1,6 @@
 "use client";
 
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@/components/custom/buttons";
 import { Gamepad2, Heart, List } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -23,25 +23,25 @@ export default function GameTableFilter() {
   return (
     <div className="flex justify-center space-x-2 mt-2">
       <Toggle
-        pressed={params.get("finished") === "true"}
+        isPressed={params.get("finished") === "true"}
         onPressedChange={() => handleToggle("finished")}
-        variant="outline"
+        variant="secondary"
         type="submit"
       >
         <Gamepad2 />
       </Toggle>
       <Toggle
-        pressed={params.get("liked") === "true"}
+        isPressed={params.get("liked") === "true"}
         onPressedChange={() => handleToggle("liked")}
-        variant="outline"
+        variant="secondary"
         type="submit"
       >
         <Heart />
       </Toggle>
       <Toggle
-        pressed={params.get("addedToTodo") === "true"}
+        isPressed={params.get("addedToTodo") === "true"}
         onPressedChange={() => handleToggle("addedToTodo")}
-        variant="outline"
+        variant="secondary"
         type="submit"
       >
         <List />

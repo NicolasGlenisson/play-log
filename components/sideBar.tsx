@@ -52,7 +52,7 @@ export function AppSidebar(props: { isConnected: boolean }) {
   const pathname = usePathname();
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="bg-[#E9EDCA]">
         <SidebarGroup>
           <SidebarGroupLabel className="text-lg mb-3">
             Play Log
@@ -63,7 +63,7 @@ export function AppSidebar(props: { isConnected: boolean }) {
                 return (
                   (!item.needConnection || isConnected) && (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
+                      <SidebarMenuButton className="hover:bg-[#949F6E]" asChild>
                         <a href={item.url}>
                           <item.icon />
                           <span>{item.title}</span>
@@ -76,7 +76,10 @@ export function AppSidebar(props: { isConnected: boolean }) {
                             (!item.needConnection || isConnected) && (
                               <SidebarMenu key={item.title} className="ml-5">
                                 <SidebarMenuItem>
-                                  <SidebarMenuButton asChild>
+                                  <SidebarMenuButton
+                                    className="hover:bg-[#949F6E]"
+                                    asChild
+                                  >
                                     <a href={item.url}>
                                       <item.icon />
                                       <span>{item.title}</span>

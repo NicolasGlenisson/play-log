@@ -4,7 +4,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../custom/buttons";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -41,17 +41,17 @@ export default function PlaylistCarousel({
           {playlists.map((playlist) => (
             <div key={playlist.id} className="flex-[0_0_100%] min-w-0 relative">
               <div className="m-4">
-                <div className="p-6 bg-white rounded-lg shadow-md">
+                <div className="p-6 bg-[#CCD5AE] rounded-lg shadow-md">
                   <Link
                     href={`/playlist/${playlist.id}`}
-                    className="text-2xl font-bold hover:text-blue-600 transition-colors"
+                    className="text-2xl text-[#6B5E40] font-bold"
                   >
                     {playlist.name}
                   </Link>
-                  <p className="mt-2 text-sm text-gray-500">
+                  <p className="mt-2 text-sm text-[#6B5E40]">
                     Created by {playlist.user.name || "Anonymous"}
                   </p>
-                  <p className="mt-4 text-gray-600 line-clamp-3">
+                  <p className="mt-4 text-[#6B5E40] line-clamp-3">
                     {playlist.description || "No description available"}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -69,8 +69,7 @@ export default function PlaylistCarousel({
       </div>
 
       <Button
-        variant="outline"
-        size="icon"
+        size="sm"
         className={cn(
           "absolute top-1/2 -translate-y-1/2 -left-12",
           "hover:bg-background/80 hidden md:flex"
@@ -81,8 +80,7 @@ export default function PlaylistCarousel({
       </Button>
 
       <Button
-        variant="outline"
-        size="icon"
+        size="sm"
         className={cn(
           "absolute top-1/2 -translate-y-1/2 -right-12",
           "hover:bg-background/80 hidden md:flex"

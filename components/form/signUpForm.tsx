@@ -4,7 +4,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/custom/buttons";
 import {
   Form,
   FormControl,
@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/custom/input";
 import { signUpSchema } from "@/lib/schemas/signUpSchema";
 import { onSubmitSignUpAction } from "@/lib/action";
 import { Loader2 } from "lucide-react";
@@ -50,7 +50,7 @@ export default function SignUpForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-xl p-6 bg-white rounded-2xl shadow-lg mt-10 flex-col space-y-6"
+        className="w-full max-w-xl p-6 bg-[#FDFAE0] rounded-2xl shadow-lg mt-10 flex-col space-y-6"
       >
         {errorMessage && (
           <div className="text-red-500 text-center mb-4">{errorMessage}</div>

@@ -3,13 +3,13 @@ import { Gamepad2, Heart, List } from "lucide-react";
 import Link from "next/link";
 import { gameAction, ActionType } from "@/lib/game";
 import { UserGame } from "@prisma/client";
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@/components/custom/buttons";
 
 interface ActionButtonProps {
   type: ActionType;
   gameSlug: string;
   userId: number | undefined;
-  userGame?: UserGame | null;
+  userGame: UserGame | null;
 }
 
 export function ActionButton(props: ActionButtonProps) {
@@ -38,7 +38,7 @@ export function ActionButton(props: ActionButtonProps) {
   if (!userId) {
     return (
       <Link href="/api/auth/signin">
-        <Toggle pressed={false} variant="outline">
+        <Toggle isPressed={false} variant="secondary">
           {icon} {text}
         </Toggle>
       </Link>
@@ -48,16 +48,14 @@ export function ActionButton(props: ActionButtonProps) {
     await gameAction(gameSlug, type);
   };
 
-  if (userId) {
-    return (
-      <Toggle
-        pressed={isPressed}
-        variant="outline"
-        onPressedChange={handleClick}
-        type="submit"
-      >
-        {icon} {text}
-      </Toggle>
-    );
-  }
+  return (
+    <Toggle
+      isPressed={isPressed}
+      variant="secondary"
+      onPressedChange={handleClick}
+      type="submit"
+    >
+      {icon} {text}
+    </Toggle>
+  );
 }

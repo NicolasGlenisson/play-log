@@ -2,8 +2,8 @@
 
 import { KeyboardEvent, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/custom/input";
+import { Button } from "@/components/custom/buttons";
 import { Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -89,11 +89,11 @@ export default function SearchBar(props: {
 
   return (
     <div className="relative w-full">
-      <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+      <div className="flex items-center  overflow-hidden">
         <Input
           type="text"
           placeholder="Type a game name..."
-          className="flex-1 px-4 py-2 border-none focus:ring-0"
+          fullWidth={true}
           value={search}
           onChange={handleChange}
           onFocus={handleFocus}
@@ -103,7 +103,7 @@ export default function SearchBar(props: {
         {/* displayed only for default search bar without custom click action */}
         {props.handleClickSuggestion === undefined && (
           <Button
-            className="px-4 py-2 flex items-center gap-2"
+            className="px-4 py-2 flex items-center gap-2 ml-2"
             onClick={handleSearch}
           >
             <Search size={18} />
@@ -113,7 +113,7 @@ export default function SearchBar(props: {
 
       {/* Display suggestions */}
       {suggestions.length > 0 && isFocused && (
-        <ul className="absolute w-full bg-white border border-gray-200 mt-1 rounded-lg shadow-md z-50">
+        <ul className="absolute w-full bg-[#FAFAD2] border-2 border-[#949F6E] mt-1 rounded-lg shadow-md z-50">
           {suggestions.map((game) => {
             return (
               <Suggestion
