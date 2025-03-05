@@ -29,7 +29,7 @@ export default function Carousel({ games }: { games: Game[] }) {
   }, [emblaApi]);
 
   return (
-    <div className="relative w-full max-w-xl mx-auto">
+    <div className="relative w-full max-w-xs md:max-w-xl mx-auto">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {games.map((game) => (

@@ -273,7 +273,7 @@ export async function deletePlaylist(id: number) {
       id: id,
     },
   });
-  console.log(playlist);
+
   if (!playlist) {
     throw new Error("Playlist doesn't exist");
   }

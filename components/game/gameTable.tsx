@@ -63,12 +63,10 @@ export default function GameTable(props: {
 
   return (
     <div className="flex justify-center py-8">
-      <div className="w-full max-w-5xl p-6 bg-[#FAEDCD]/60 rounded-xl shadow-lg space-y-6">
+      <div className="md:max-w-5xl p-1 sm:p-6 bg-[#FAEDCD]/60 rounded-xl shadow-lg space-y-6">
         <GameTableFilter />
         <div className="overflow-x-auto">
-          <div className="w-full min-w-[320px] max-w-full">
-            <DataTable columns={gameColumns} data={userGames} />
-          </div>
+          <DataTable columns={gameColumns} data={userGames} />
         </div>
       </div>
     </div>

@@ -86,7 +86,7 @@ export default function PaginationCustom(props: PaginationCustomProps) {
       );
     }
   }
-  console.log(pageLinkToDisplay);
+
   pageLinkToDisplay.forEach((page, index) => {
     middlePagination.push(
       <PaginationItem key={index}>

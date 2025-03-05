@@ -35,7 +35,7 @@ export default function PlaylistCarousel({
   }, [emblaApi]);
 
   return (
-    <div className="relative max-w-xl mx-auto">
+    <div className="relative max-w-xs md:max-w-xl mx-auto">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {playlists.map((playlist) => (

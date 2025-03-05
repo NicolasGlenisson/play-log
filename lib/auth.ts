@@ -68,7 +68,6 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
-      console.log(account);
       if (account?.provider === "google" && user?.email) {
         // If there is no user linked to this account, we create it
         try {

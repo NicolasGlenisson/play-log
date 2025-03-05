@@ -42,7 +42,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(games);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json({ error: "Server Error" }, { status: 500 });
   }
 }

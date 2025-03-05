@@ -34,8 +34,10 @@ export default async function RootLayout({
           <AppSidebar isConnected={isConnected} />
           <SidebarInset className="bg-[#faf3e0]">
             <Header session={session} />
-            <main className="flex-1 px-4 py-6 md:px-6 lg:px-8 overflow-y-auto">
-              <div className="w-full max-w-6xl mx-auto">{children}</div>
+            <main className="flex-1 px-0 sm:px-4 py-6 md:px-6 lg:px-8 overflow-y-auto">
+              <div className="mx-auto md:w-full sm:max-w-7xl max-w-sm">
+                {children}
+              </div>
             </main>
           </SidebarInset>
         </SidebarProvider>

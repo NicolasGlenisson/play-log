@@ -73,7 +73,7 @@ export async function editProfileFormAction(
       data: editedUser,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       message: "Cannot create user",
       success: false,
@@ -120,7 +120,7 @@ export async function onSubmitSignUpAction(data: FormData): Promise<FormState> {
       data: newUser,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       message: "Cannot create user",
       success: false,
