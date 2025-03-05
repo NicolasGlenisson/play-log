@@ -1,6 +1,6 @@
 "use client";
 
-import { Game, UserGame } from "@prisma/client";
+import { UserGame } from "@prisma/client";
 import { Check, X } from "lucide-react";
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
@@ -11,7 +11,9 @@ const check = <Check className="stroke-green-500" />;
 const cross = <X className="stroke-red-500" />;
 
 // Columns configuration to use with tanstack table
-const gameColumns: ColumnDef<UserGame & { game: Game }>[] = [
+const gameColumns: ColumnDef<
+  UserGame & { game: { id: number; slug: string; name: string } }
+>[] = [
   {
     accessorKey: "game.name",
     header: "Name",
@@ -53,7 +55,9 @@ const gameColumns: ColumnDef<UserGame & { game: Game }>[] = [
 ];
 
 export default function GameTable(props: {
-  userGames: (UserGame & { game: Game })[];
+  userGames: (UserGame & {
+    game: { id: number; slug: string; name: string };
+  })[];
 }) {
   const { userGames } = props;
 

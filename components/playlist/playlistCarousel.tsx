@@ -35,7 +35,7 @@ export default function PlaylistCarousel({
   }, [emblaApi]);
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto">
+    <div className="relative max-w-xl mx-auto">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {playlists.map((playlist) => (
@@ -43,7 +43,7 @@ export default function PlaylistCarousel({
               <div className="m-4">
                 <div className="p-6 bg-[#CCD5AE] rounded-lg shadow-md">
                   <Link
-                    href={`/playlist/${playlist.id}`}
+                    href={`/list/${playlist.id}`}
                     className="text-2xl text-[#6B5E40] font-bold"
                   >
                     {playlist.name}

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/custom/input";
 import { signUpSchema } from "@/lib/schemas/signUpSchema";
-import { onSubmitSignUpAction } from "@/lib/action";
+import { onSubmitSignUpAction } from "@/lib/user";
 import { Loader2 } from "lucide-react";
 
 // Sign up form with form validation using Zod

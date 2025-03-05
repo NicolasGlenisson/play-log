@@ -18,7 +18,7 @@ export default async function Page(props: {
     <div className="flex flex-col items-center w-full max-w-7xl mx-auto px-4">
       <div className="text-center mb-8">
         <h1 className="text-3xl md:text-4xl font-bold text-[#5E5034] mt-6 mb-2">
-          Discover Playlists
+          Discover Game Lists
         </h1>
         <p className="text-[#9B7E55] max-w-xl mx-auto">
           Explore collections created by the community or create your own game

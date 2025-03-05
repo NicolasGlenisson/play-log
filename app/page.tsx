@@ -6,6 +6,8 @@ import { unstable_cache } from "next/cache";
 import { Gamepad2, List } from "lucide-react";
 import { Button } from "@/components/custom/buttons";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { options } from "@/lib/auth";
 
 // Cache duration in seconds (e.g., 3 hours = 10800 seconds)
 const CACHE_DURATION = 10800;
@@ -56,10 +58,13 @@ const getRandomPlaylists = unstable_cache(
 );
 
 export default async function HomePage() {
-  const [games, playlists] = await Promise.all([
+  const [games, playlists, session] = await Promise.all([
     getRandomGames(),
     getRandomPlaylists(),
+    getServerSession(options),
   ]);
+
+  console.log(session);
 
   return (
     <div className="space-y-16 w-full max-w-7xl mx-auto pb-12">
@@ -105,26 +110,28 @@ export default async function HomePage() {
 
       {/* Call to Action */}
       {/* TODO: only display if not connected */}
-      <section className="px-4">
-        <div className="bg-gradient-to-r from-[#F8E8B8]/70 to-[#E9DCC3]/70 p-8 rounded-2xl text-center border border-[#E9DCC3]">
-          <h2 className="text-2xl font-bold text-[#5E5034] mb-3">
-            Create Your Game Collection
-          </h2>
-          <p className="text-[#7A6C48] mb-6 max-w-lg mx-auto">
-            Sign up to track your progress, create playlists, and join the
-            gaming community
-          </p>
-          <Link href="/api/auth/signin">
-            <Button
-              variant="primary"
-              size="lg"
-              className="inline-flex items-center font-medium"
-            >
-              Get Started
-            </Button>
-          </Link>
-        </div>
-      </section>
+      {!session && (
+        <section className="px-4">
+          <div className="bg-gradient-to-r from-[#F8E8B8]/70 to-[#E9DCC3]/70 p-8 rounded-2xl text-center border border-[#E9DCC3]">
+            <h2 className="text-2xl font-bold text-[#5E5034] mb-3">
+              Create Your Game Collection
+            </h2>
+            <p className="text-[#7A6C48] mb-6 max-w-lg mx-auto">
+              Sign up to track your progress, create lists, and join the gaming
+              community
+            </p>
+            <Link href="/api/auth/signin">
+              <Button
+                variant="primary"
+                size="lg"
+                className="inline-flex items-center font-medium"
+              >
+                Get Started
+              </Button>
+            </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

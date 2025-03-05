@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 export default async function Page() {
   const session = await getServerSession();
   if (!session) {
-    redirect("/api/auth/signin?callbackUrl=/playlist/mine");
+    redirect("/api/auth/signin?callbackUrl=/list/mine");
   }
 
   const req = await fetchPlaylistsByUserId(session.user.id);
@@ -19,7 +19,10 @@ export default async function Page() {
 
   return (
     <>
-      <h1>My Playlists</h1>
+      <h1 className="text-center mb-8 text-3xl md:text-4xl font-bold text-[#5E5034] mt-6">
+        My Playlist
+      </h1>
+
       <PlayListCollection playlists={playlists} />
     </>
   );

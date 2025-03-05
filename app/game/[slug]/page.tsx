@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import GameImage from "@/components/game/gameImage";
 import { ActionButton } from "@/components/game/actionButton";
-import { CalendarDays, Award, Clock, Tag, Users, Gamepad } from "lucide-react";
+import { CalendarDays, Award, Heart, Tag, Users, Gamepad } from "lucide-react";
 
 // Page to display game with few details and actions (finish, like, add to list)
 export default async function Page(props: {
@@ -29,8 +29,7 @@ export default async function Page(props: {
   const formattedReleaseDate = game.releaseDate
     ? new Date(game.releaseDate).toLocaleDateString()
     : "";
-  // genre placeholder
-  const genres = ["Action", "Adventure", "RPG", "Indie", "Simulation"];
+
   return (
     <div className="w-full max-w-4xl">
       {/* Hero section with image background */}
@@ -97,25 +96,23 @@ export default async function Page(props: {
                 />
               </div>
             ) : (
-              <div className="rounded-2xl aspect-[3/4] bg-gradient-to-br from-[#CCD5AE] to-[#FAEDCD] flex items-center justify-center transform rotate-1">
-                <span className="text-4xl">🎮</span>
-              </div>
+              <div className="rounded-2xl aspect-[3/4] bg-gradient-to-br from-[#CCD5AE] to-[#FAEDCD] flex items-center justify-center transform rotate-1"></div>
             )}
 
             {/* Metadata with icons */}
             <div className="mt-6 space-y-4">
-              {genres && genres.length > 0 && (
+              {game.genre && game.genre.length > 0 && (
                 <div className="flex items-start gap-3">
                   <Tag className="text-[#949F6E] mt-1" />
                   <div>
                     <h3 className="font-semibold text-[#5C6246]">Genres</h3>
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {genres.map((genre) => (
+                      {game.genre.map((genre) => (
                         <Badge
-                          key={genre}
+                          key={genre.slug}
                           className="bg-[#E9EDCA] text-[#5C6246] hover:bg-[#CCD5AE] border border-[#CCD5AE]/50"
                         >
-                          {genre}
+                          {genre.name}
                         </Badge>
                       ))}
                     </div>
@@ -123,21 +120,35 @@ export default async function Page(props: {
                 </div>
               )}
 
-              {/* Additional metadata item */}
+              {/* Player mode */}
               <div className="flex items-start gap-3">
                 <Users className="text-[#949F6E] mt-1" />
                 <div>
                   <h3 className="font-semibold text-[#5C6246]">Players</h3>
-                  <p className="mt-1 text-[#6B705C]">Single Player</p>
+                  {game.mode &&
+                    game.mode.map((mode) => {
+                      return (
+                        <p key={mode} className="mt-1 text-[#6B705C]">
+                          {mode}
+                        </p>
+                      );
+                    })}
                 </div>
               </div>
 
-              {/* Additional metadata item */}
+              {/* Platform */}
               <div className="flex items-start gap-3">
                 <Gamepad className="text-[#949F6E] mt-1" />
                 <div>
                   <h3 className="font-semibold text-[#5C6246]">Platform</h3>
-                  <p className="mt-1 text-[#6B705C]">PC, PlayStation, Xbox</p>
+                  {game.platform &&
+                    game.platform.map((platform) => {
+                      return (
+                        <p key={platform} className="mt-1 text-[#6B705C]">
+                          {platform}
+                        </p>
+                      );
+                    })}
                 </div>
               </div>
             </div>
@@ -158,7 +169,7 @@ export default async function Page(props: {
               )}
             </div>
 
-            {/* Additional sections */}
+            {/* Additional sections (rating + rating count) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-[#E9EDCA]/70 rounded-2xl p-5 border border-[#CCD5AE]/60">
                 <div className="flex items-center gap-2 mb-3">
@@ -169,7 +180,7 @@ export default async function Page(props: {
                 </div>
                 <div className="text-center">
                   <span className="text-3xl font-bold text-[#866C47]">
-                    {"10"}
+                    {game.rating?.round().toString() || "?"}
                   </span>
                   <span className="text-[#866C47] text-lg">/100</span>
                 </div>
@@ -177,15 +188,15 @@ export default async function Page(props: {
 
               <div className="bg-[#E9EDCA]/70 rounded-2xl p-5 border border-[#CCD5AE]/60">
                 <div className="flex items-center gap-2 mb-3">
-                  <Clock className="text-[#866C47]" />
-                  <h3 className="font-semibold text-[#5C6246]">Play Time</h3>
+                  <Heart className="text-[#866C47]" />
+                  <h3 className="font-semibold text-[#5C6246]">
+                    Numbers of like
+                  </h3>
                 </div>
                 <div className="text-center">
                   <span className="text-3xl font-bold text-[#866C47]">
-                    {/* todo: placeholder */}
-                    {"?"}
+                    {game._count.userGames}
                   </span>
-                  <span className="text-[#866C47] text-lg"> hrs</span>
                 </div>
               </div>
             </div>

@@ -15,6 +15,12 @@ export const fetchGame = cache(async (slug: string) => {
       where: {
         slug: slug,
       },
+      include: {
+        genre: true,
+        _count: {
+          select: { userGames: { where: { liked: true } } },
+        },
+      },
     });
 
     return game;
@@ -72,7 +78,13 @@ export async function fetchUserGames(
     const userGames = await prisma.userGame.findMany({
       where: whereConditions,
       include: {
-        game: true,
+        game: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
       },
       orderBy: {
         game: {

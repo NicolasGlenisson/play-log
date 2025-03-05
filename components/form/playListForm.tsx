@@ -113,83 +113,87 @@ export default function PlayListForm(props: PlayListFormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-xl p-6 bg-[#FDFAE0] rounded-2xl shadow-lg mt-10 flex-col space-y-6"
-      >
-        {errorMessage && (
-          <div className="text-red-500 text-center mb-4">{errorMessage}</div>
-        )}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+    <div className="flex flex-wrap justify-center gap-8 p-6">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full max-w-xl p-6 bg-[#FDFAE0] rounded-2xl shadow-lg mt-10 flex-col space-y-6"
+        >
+          {errorMessage && (
+            <div className="text-red-500 text-center mb-4">{errorMessage}</div>
           )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <textarea
-                  {...field}
-                  className="w-full rounded-3xl border-2 border-[#949F6E] bg-[#FAFAD2] px-4 py-2 text-[#5C6246] ring-offset-background placeholder:text-[#949F6E]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#949F6E]/30 focus-visible:ring-offset-2 focus-visible:border-[#99aa59] disabled:cursor-not-allowed disabled:opacity-50 shadow-sm transition-colors resize-none"
-                  rows={4}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="tags"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tags</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormDescription>Enter tags separated by commas.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormItem>
-          <FormLabel>Add games</FormLabel>
-          <SearchBar handleClickSuggestion={handleClickSuggestion} />
-          <FormDescription>Add game to the list</FormDescription>
-          <FormMessage />
-          <SortableGameList
-            handleDragEnd={handleDragEnd}
-            sortableGames={sortableGames}
-            handleGameListRemove={handleGameListRemove}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </FormItem>
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <textarea
+                    {...field}
+                    className="w-full rounded-3xl border-2 border-[#949F6E] bg-[#FAFAD2] px-4 py-2 text-[#5C6246] ring-offset-background placeholder:text-[#949F6E]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#949F6E]/30 focus-visible:ring-offset-2 focus-visible:border-[#99aa59] disabled:cursor-not-allowed disabled:opacity-50 shadow-sm transition-colors resize-none"
+                    rows={4}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="tags"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tags</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormDescription>
+                  Enter tags separated by commas.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormItem>
+            <FormLabel>Add games</FormLabel>
+            <SearchBar handleClickSuggestion={handleClickSuggestion} />
+            <FormDescription>Add game to the list</FormDescription>
+            <FormMessage />
+            <SortableGameList
+              handleDragEnd={handleDragEnd}
+              sortableGames={sortableGames}
+              handleGameListRemove={handleGameListRemove}
+            />
+          </FormItem>
 
-        <div className="flex justify-between items-center">
-          {form.formState.isSubmitting ? (
-            <Button disabled className="mt-10 w-full">
-              <Loader2 className="animate-spin" />
-              Submitting...
-            </Button>
-          ) : (
-            <Button type="submit" className="mt-10 w-full">
-              {type === "edit" ? "Edit Playlist" : "Create Playlist"}
-            </Button>
-          )}
-        </div>
-      </form>
-    </Form>
+          <div className="flex justify-between items-center">
+            {form.formState.isSubmitting ? (
+              <Button disabled className="mt-10 w-full">
+                <Loader2 className="animate-spin" />
+                Submitting...
+              </Button>
+            ) : (
+              <Button type="submit" className="mt-10 w-full">
+                {type === "edit" ? "Edit Playlist" : "Create Playlist"}
+              </Button>
+            )}
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 }

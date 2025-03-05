@@ -48,7 +48,8 @@ export const options: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        if (!user) return null;
+        // If user doesn't exists or doesn't have password (google account)
+        if (!user || !user.password) return null;
 
         const passwordsMatch = await bcrypt.compare(
           credentials.password,
@@ -67,18 +68,21 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
+      console.log(account);
       if (account?.provider === "google" && user?.email) {
+        // If there is no user linked to this account, we create it
         try {
           const existingUser = await prisma.user.findUnique({
-            where: { email: user.email },
+            where: { googleId: account.providerAccountId },
           });
 
           if (!existingUser) {
             await prisma.user.create({
               data: {
-                email: user.email!,
-                name: user.name!,
+                email: user.email,
+                name: user.name || "user_name",
                 password: "",
+                googleId: account.providerAccountId,
               },
             });
           }

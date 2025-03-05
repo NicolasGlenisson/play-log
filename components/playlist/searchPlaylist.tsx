@@ -20,7 +20,7 @@ export default function SearchInput() {
   return (
     <Input
       type="text"
-      placeholder="Search for playlist name or tags (tags must be separated by commas)"
+      placeholder="Search for list name or tags (tags must be separated by commas)"
       className="mt-3"
       defaultValue={searchParams.get("query")?.toString()}
       onChange={(e) => {

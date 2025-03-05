@@ -1,5 +1,12 @@
 "use client";
-import { Home, Gamepad2, List, SquarePlus, TextSearch } from "lucide-react";
+import {
+  Home,
+  Gamepad2,
+  List,
+  SquarePlus,
+  TextSearch,
+  User,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -27,23 +34,29 @@ const items = [
     needConnection: true,
   },
   {
-    title: "Playlist",
-    url: "/playlist",
+    title: "Game Lists",
+    url: "/list",
     icon: TextSearch,
     items: [
       {
         title: "Create",
-        url: "/playlist/create",
+        url: "/list/create",
         icon: SquarePlus,
         needConnection: true,
       },
       {
-        title: "My Playlists",
-        url: "/playlist/mine",
+        title: "My Game Lists",
+        url: "/list/mine",
         icon: List,
         needConnection: true,
       },
     ],
+  },
+  {
+    title: "My Profile",
+    url: "/profile",
+    icon: User,
+    needConnection: true,
   },
 ];
 

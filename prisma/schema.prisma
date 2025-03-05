@@ -22,24 +22,28 @@ model Game {
   userGames     UserGame[]
   playListGames PlayListGames[]
   imageId       String?
+  rating        Decimal?
+  genre         GameGenre[]
+  platform      String[]
+  mode          String[]
+  ratingCount   Int?
 }
 
 model User {
-  id          Int        @id @default(autoincrement())
-  email       String     @unique
-  password    String
-  name        String?
-  googleId    String?    @unique
-  googleToken String?
-  userGames   UserGame[]
-  playList    PlayList[]
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
+  name      String
+  googleId  String?    @unique
+  userGames UserGame[]
+  playList  PlayList[]
 }
 
 model UserGame {
   id          Int     @id @default(autoincrement())
-  user        User    @relation(fields: [userId], references: [id])
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
-  game        Game    @relation(fields: [gameId], references: [id])
+  game        Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
   gameId      Int
   finished    Boolean @default(false)
   liked       Boolean @default(false)
@@ -48,9 +52,16 @@ model UserGame {
   @@unique([userId, gameId])
 }
 
+model GameGenre {
+  id    Int    @id @default(autoincrement())
+  slug  String @unique
+  name  String
+  games Game[]
+}
+
 model PlayList {
   id            Int             @id @default(autoincrement())
-  user          User            @relation(fields: [userId], references: [id])
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        Int
   name          String
   description   String?

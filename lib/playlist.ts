@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth";
 import { suggestionType } from "@/components/searchBar";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 12;
 
 export async function fetchPlaylistsByUserId(userId: number) {
   try {
@@ -23,14 +23,14 @@ export async function fetchPlaylistsByUserId(userId: number) {
     });
 
     return {
-      message: "Playlists fetched successfully",
+      message: "List fetched successfully",
       success: true,
       data: playlists,
     };
   } catch (error) {
     console.error(error);
     return {
-      message: "Cannot fetch playlists",
+      message: "Cannot fetch list",
       success: false,
       data: [],
     };
@@ -57,7 +57,9 @@ export async function fetchPlayList(id: number) {
           select: {
             id: true,
             position: true,
-            game: true,
+            game: {
+              select: { id: true, slug: true, name: true, imageId: true },
+            },
           },
         },
       },
@@ -163,11 +165,11 @@ export async function createPlaylist(
         },
       },
     });
-    redirectUrl = `/playlist/${newPlayList.id}`;
+    redirectUrl = `/list/${newPlayList.id}`;
   } catch (error) {
     console.error(error);
     return {
-      message: "Cannot create playlist",
+      message: "Cannot create list",
       success: false,
     };
   }
@@ -194,7 +196,7 @@ export async function updatePlaylist(
   const playlist = await fetchPlayList(playlistId);
   if (userId !== playlist?.user.id) {
     return {
-      message: "User isn't playlist owner",
+      message: "User isn't list owner",
       success: false,
     };
   }
@@ -226,7 +228,7 @@ export async function updatePlaylist(
     position: index,
   }));
 
-  // Try to update the playlist
+  // Try to update the list
   try {
     await prisma.$transaction([
       prisma.playListGames.deleteMany({
@@ -251,16 +253,16 @@ export async function updatePlaylist(
   } catch (error) {
     console.error(error);
     return {
-      message: "Cannot update playlist",
+      message: "Cannot update list",
       success: false,
     };
   }
 
-  redirect(`/playlist/${playlistId}`);
+  redirect(`/list/${playlistId}`);
 }
 
 export async function deletePlaylist(id: number) {
-  // Check that user is connected and owner of playlist
+  // Check that user is connected and owner of list
   const session = await getServerSession(options);
   if (!session?.user.id) {
     throw new Error("Missing session");
@@ -277,10 +279,10 @@ export async function deletePlaylist(id: number) {
   }
 
   if (playlist.userId !== session.user.id) {
-    throw new Error("User not owner of the playlist");
+    throw new Error("User not owner of the list");
   }
 
-  // Everything good we can delete the playlist
+  // Everything good we can delete the list
   await prisma.playList.delete({ where: { id: id } });
-  redirect(`/playlist`);
+  redirect(`/list`);
 }

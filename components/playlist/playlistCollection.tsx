@@ -22,11 +22,9 @@ export default function PlayListCollection({
       {playlists.length === 0 && !canCreate && (
         <div className="w-full py-12 flex flex-col items-center justify-center p-12 bg-[#FAEDCD]/50 rounded-xl border border-[#E9EDCA]/80">
           <div className="text-[#C9B98B] mb-3 text-5xl">🎮</div>
-          <h3 className="text xl font-medium text-[#6B5E40] mb-2">
-            No playlists
-          </h3>
+          <h3 className="text xl font-medium text-[#6B5E40] mb-2">No lists</h3>
           <p className="text-[#7A6C48] text-center max-w-md">
-            {"There's no playlist to display"}
+            {"There's no list to display"}
           </p>
         </div>
       )}

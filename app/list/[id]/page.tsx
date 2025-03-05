@@ -24,7 +24,7 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
 
   if (session?.user.id && playlist.userId === session.user.id) {
     editButton = (
-      <Link href={`/playlist/${playlist.id}/edit`}>
+      <Link href={`/list/${playlist.id}/edit`}>
         <Button variant="secondary" size="sm">
           <span className="flex items-center">
             <Edit size={16} className="mr-2" />
@@ -130,7 +130,7 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
             {playlist.description && (
               <div className="bg-[#FAEDCD]/60 rounded-2xl p-6 mb-6 border border-[#CCD5AE]/50">
                 <h2 className="text-xl font-bold text-[#5C6246] mb-3">
-                  About this playlist
+                  About this list
                 </h2>
                 <p className="text-[#6B705C] leading-relaxed">
                   {playlist.description}
@@ -143,7 +143,7 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
               <div className="flex items-center gap-2 mb-4">
                 <Gamepad className="text-[#866C47]" />
                 <h2 className="text-xl font-bold text-[#5C6246]">
-                  Games in playlist
+                  Games in list
                 </h2>
               </div>
 
@@ -201,7 +201,7 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
 
                 {playlist.playListGames.length === 0 && (
                   <p className="italic text-[#949F6E]/80 text-center py-6">
-                    This playlist is empty.
+                    This list is empty.
                   </p>
                 )}
               </div>

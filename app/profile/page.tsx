@@ -1,13 +1,16 @@
-import PlayListForm from "@/components/form/playListForm";
+import EditProfileForm from "@/components/form/editProfile";
 import { options } from "@/lib/auth";
+import { fetchUser } from "@/lib/user";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-// Page to create a new playlist
 export default async function Page() {
   const session = await getServerSession(options);
   if (!session) {
-    redirect("/api/auth/signin?callbackUrl=/playlist/create");
+    redirect("/");
   }
-  return <PlayListForm type="create" />;
+
+  const user = await fetchUser(session.user.id);
+
+  return <EditProfileForm username={user.name} email={user.email} />;
 }

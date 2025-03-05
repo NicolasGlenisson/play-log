@@ -1,5 +1,6 @@
 import axios from "axios";
 import { prisma } from "@/lib/prisma";
+import { Game } from "@prisma/client";
 
 const CLIENT_ID = process.env.TWITCH_CLIENT_ID;
 const CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET;
@@ -8,9 +9,9 @@ let expiresAt: number | null = null;
 // Get Twitch OAuth token
 export async function getAccessToken(): Promise<string> {
   const now = Date.now();
-  console.log(token);
+
   if (token && expiresAt && now < expiresAt) {
-    // return token;
+    return token;
   }
   try {
     const response = await axios.post(
@@ -44,6 +45,11 @@ interface GameIGDB {
   slug: string;
   summary?: string;
   first_release_date?: number; // UNIX timestamp (seconds)
+  genres?: { id: number }[];
+  platforms?: { name: string }[];
+  total_rating?: number;
+  total_rating_count?: number;
+  cover: { image_id: string };
 }
 const ITEMS_PER_PAGE = 10;
 
@@ -61,7 +67,7 @@ export async function fetchGames(name: string, page: number) {
 
     const response = await axios.post(
       IGDB_URL,
-      `fields name, slug, summary, first_release_date, rating;
+      `fields name, slug, summary, first_release_date, rating, platforms.*, genres.*, total_rating, game_modes.*, total_rating_count, cover.image_id;
         where name ~ *"${name}"*;
         sort rating desc;
         limit ${ITEMS_PER_PAGE};
@@ -91,14 +97,33 @@ export async function fetchGames(name: string, page: number) {
         releaseDate: game.first_release_date
           ? new Date(game.first_release_date * 1000)
           : null,
+        genre: {
+          connect: game.genres?.map((genre: { id: number }) => {
+            return {
+              id: genre.id,
+            };
+          }),
+        },
+        platform: game.platforms?.map(
+          (platform: { name: string }) => platform.name
+        ),
+        rating: game.total_rating,
+        ratingCount: game.total_rating_count,
+        imageId: game.cover?.image_id,
       }));
 
     if (gameData.length > 0) {
       // Insert in a single query
-      await prisma.game.createMany({
-        data: gameData,
-        skipDuplicates: true, // Avoid errors if games already exist
-      });
+      await prisma.$transaction(
+        gameData.map((game: Game) => {
+          const { id, ...gameToUpsert } = game;
+          return prisma.game.upsert({
+            where: { id: id },
+            create: game,
+            update: gameToUpsert,
+          });
+        })
+      );
 
       const fetchedGames = await prisma.game.findMany({
         where: { id: { in: gameIds } },

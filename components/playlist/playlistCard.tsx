@@ -16,7 +16,7 @@ interface PlayListProps {
 export default function PlayListCard({ playlist }: PlayListProps) {
   return (
     <Link
-      href={`/playlist/${playlist.id}`}
+      href={`/list/${playlist.id}`}
       className="block w-full max-w-sm sm:w-[280px] h-[320px] transform transition-transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#BFA68A]/60 focus:ring-offset-2 rounded-xl"
     >
       <div className="w-full h-full bg-[#FDFAE0] rounded-xl overflow-hidden shadow-md border border-[#E9DCC3]/70 flex flex-col">
